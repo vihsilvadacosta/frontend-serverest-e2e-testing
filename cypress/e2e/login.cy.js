@@ -5,6 +5,9 @@ describe('Testes E2E - Login', () => {
   let usuarios;
   let mensagens;
 
+  const emailFake = faker.internet.email();
+  const senhaFake = faker.internet.password(8);
+
   before(() => {
     cy.fixture('usuarios').then((dados) => { usuarios = dados.usuarios; });
     cy.fixture('mensagens').then((dados) => { mensagens = dados.erros; });
@@ -14,74 +17,67 @@ describe('Testes E2E - Login', () => {
     LoginPage.acessarPaginaDeLogin();
   });
 
-  it('Deve realizar login com sucesso usando dados válidos', () => {
-    cy.allure().startStep('Início do teste: login válido');
-
-    LoginPage.preencherEmail(usuarios.validos.email);
-    LoginPage.preencherSenha(usuarios.validos.senha);
-    LoginPage.clicarEmEntrar();
-
-    cy.url().should('include', '/home');
-    cy.contains('Logout').should('be.visible');
-
+  function allureStep(title, testFunc) {
+    cy.allure().startStep(title);
+    testFunc();
     cy.allure().endStep('passed');
+  }
+
+  describe('Cenários Positivos', () => {
+    it('Deve realizar login com sucesso usando dados válidos', () => {
+      allureStep('Login válido com credenciais corretas', () => {
+        LoginPage.preencherEmail(usuarios.validos.email);
+        LoginPage.preencherSenha(usuarios.validos.senha);
+        LoginPage.clicarEmEntrar();
+
+        cy.url().should('include', '/home');
+        cy.contains('Logout').should('be.visible');
+      });
+    });
   });
 
-  it('Deve exibir erro ao tentar realizar login com email e senha inválidos', () => {
-    cy.allure().startStep('Início do teste: login inválido com email e senha falsos');
+  describe('Cenários Negativos', () => {
+    it('Deve exibir erro com email e senha inválidos', () => {
+      allureStep('Login inválido com email e senha falsos', () => {
+        LoginPage.preencherEmail(emailFake);
+        LoginPage.preencherSenha(senhaFake);
+        LoginPage.clicarEmEntrar();
 
-    const emailFake = faker.internet.email();
-    const senhaFake = faker.internet.password(8);
+        cy.url().should('include', '/login');
+        LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
+      });
+    });
 
-    LoginPage.preencherEmail(emailFake);
-    LoginPage.preencherSenha(senhaFake);
-    LoginPage.clicarEmEntrar();
+    it('Deve exibir erro sem informar email e senha', () => {
+      allureStep('Login sem email e senha', () => {
+        LoginPage.clicarEmEntrar();
 
-    cy.url().should('include', '/login');
-    LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
+        cy.url().should('include', '/login');
+        LoginPage.validarMensagemErro(mensagens.emailObrigatorio);
+        LoginPage.validarMensagemErro(mensagens.senhaObrigatoria);
+      });
+    });
 
-    cy.allure().endStep('passed');
-  });
+    it('Deve exibir erro com email inválido', () => {
+      allureStep('Login com email inválido', () => {
+        LoginPage.preencherEmail(emailFake);
+        LoginPage.preencherSenha(usuarios.validos.senha);
+        LoginPage.clicarEmEntrar();
 
-  it('Deve exibir erro ao tentar realizar login sem informar email e senha', () => {
-    cy.allure().startStep('Início do teste: login sem email e senha');
+        cy.url().should('include', '/login');
+        LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
+      });
+    });
 
-    LoginPage.clicarEmEntrar();
+    it('Deve exibir erro com senha inválida', () => {
+      allureStep('Login com senha inválida', () => {
+        LoginPage.preencherEmail(usuarios.validos.email);
+        LoginPage.preencherSenha(senhaFake);
+        LoginPage.clicarEmEntrar();
 
-    cy.url().should('include', '/login');
-    LoginPage.validarMensagemErro(mensagens.emailObrigatorio);
-    LoginPage.validarMensagemErro(mensagens.senhaObrigatoria);
-
-    cy.allure().endStep('passed');
-  });
-
-  it('Deve exibir erro ao tentar realizar login com email inválido', () => {
-    cy.allure().startStep('Início do teste: login com email inválido');
-
-    const emailFake = faker.internet.email();
-
-    LoginPage.preencherEmail(emailFake);
-    LoginPage.preencherSenha(usuarios.validos.senha);
-    LoginPage.clicarEmEntrar();
-
-    cy.url().should('include', '/login');
-    LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
-
-    cy.allure().endStep('passed');
-  });
-
-  it('Deve exibir erro ao tentar realizar login com senha inválida', () => {
-    cy.allure().startStep('Início do teste: login com senha inválida');
-
-    const senhaFake = faker.internet.password(8);
-
-    LoginPage.preencherEmail(usuarios.validos.email);
-    LoginPage.preencherSenha(senhaFake);
-    LoginPage.clicarEmEntrar();
-
-    cy.url().should('include', '/login');
-    LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
-
-    cy.allure().endStep('passed');
+        cy.url().should('include', '/login');
+        LoginPage.validarMensagemErro(mensagens.emailOuSenhaInvalidos);
+      });
+    });
   });
 });
