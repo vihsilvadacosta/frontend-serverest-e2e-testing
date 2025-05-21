@@ -1,6 +1,7 @@
 class LoginPage {
   acessarPaginaDeLogin() {
     cy.visit('/login');
+    cy.get('input[name="email"]').should('be.visible');
   }
 
   preencherEmail(email) {
