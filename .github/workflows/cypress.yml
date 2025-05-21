@@ -29,10 +29,4 @@ jobs:
         run: |
           npx allure generate allure-results --clean -o allure-report
           ls -l allure-report
-
-      # Opcional: envie o relatório para o Actions artifact para download posterior
-      - name: Upload Allure report as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-report
-          path: allure-report
+      
