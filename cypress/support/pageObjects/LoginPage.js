@@ -1,22 +1,22 @@
 class LoginPage {
   acessarPaginaDeLogin() {
-    cy.visit('https://front.serverest.dev/login');
+    cy.visit('/login');
   }
 
   preencherEmail(email) {
-    cy.get('[data-testid="email"]').clear().type(email);
+    cy.get('input[name="email"]').clear().type(email);
   }
 
   preencherSenha(senha) {
-    cy.get('[data-testid="senha"]').clear().type(senha);
+    cy.get('input[name="password"]').clear().type(senha);
   }
 
   clicarEmEntrar() {
-    cy.get('[data-testid="entrar"]').click();
+    cy.get('button[type="submit"]').click();
   }
 
-  validarMensagemErro(mensagem) {
-    cy.contains(mensagem).should('be.visible');
+  validarMensagemErro(mensagemEsperada) {
+    cy.contains(mensagemEsperada).should('be.visible');
   }
 }
 

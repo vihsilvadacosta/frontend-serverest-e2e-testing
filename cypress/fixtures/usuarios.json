@@ -3,10 +3,6 @@
     "validos": {
       "email": "fulano@qa.com",
       "senha": "teste"
-    },
-    "invalidos": {
-      "email": "invalido@teste.com",
-      "senha": "errada"
     }
   }
 }

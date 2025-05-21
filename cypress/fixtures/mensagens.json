@@ -1,0 +1,8 @@
+{
+
+   "erros": {
+    "emailOuSenhaInvalidos": "Email e/ou senha inválidos",
+    "emailObrigatorio": "Email é obrigatório",
+    "senhaObrigatoria": "Password é obrigatório"
+   }
+}
