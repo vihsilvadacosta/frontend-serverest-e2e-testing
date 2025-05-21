@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","2094","Deve exibir erro ao tentar realizar login com email inválido","","Wed May 21 16:38:13 BRT 2025","passed","Wed May 21 16:38:15 BRT 2025","","Testes E2E - Login","",""
+"","1455","Deve exibir erro ao tentar realizar login sem informar email e senha","","Wed May 21 16:38:12 BRT 2025","passed","Wed May 21 16:38:13 BRT 2025","","Testes E2E - Login","",""
+"","2318","Deve exibir erro ao tentar realizar login com email e senha inválidos","","Wed May 21 16:38:09 BRT 2025","passed","Wed May 21 16:38:12 BRT 2025","","Testes E2E - Login","",""
+"","1907","Deve exibir erro ao tentar realizar login com senha inválida","","Wed May 21 16:38:15 BRT 2025","passed","Wed May 21 16:38:17 BRT 2025","","Testes E2E - Login","",""
+"","5755","Deve realizar login com sucesso usando dados válidos","","Wed May 21 16:38:03 BRT 2025","passed","Wed May 21 16:38:09 BRT 2025","","Testes E2E - Login","",""
